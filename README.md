@@ -15,6 +15,7 @@ kaizen-os-waitlist-final/
 │   ├── PhoennixAI.jpg
 │   ├── kaizen-os-product-hero.png
 │   ├── config.js
+│   ├── share.js
 │   ├── site.css
 │   └── waitlist.js
 └── power-automate/
@@ -28,7 +29,7 @@ kaizen-os-waitlist-final/
 
 ## What is ready
 
-The static website is complete and responsive, including keyboard focus states, terms acceptance, optional product-news consent, basic bot trapping, an accessible confirmation page and form error handling. The form becomes live when `assets/config.js` receives the submitted endpoint from the intake flow. The Excel workbook includes a `WaitlistTable` table, validations, workflow flags and an operating dashboard. The Power Automate guide specifies three flows: **intake**, **scheduled invitations** and **mark joined**.
+The static website is complete and responsive, including keyboard focus states, terms acceptance, optional product-news consent, basic bot trapping, real-time email validation, submission loading feedback and an accessible confirmation page. The confirmation page provides X, LinkedIn and Instagram share actions. The Instagram action opens a native share sheet where available; otherwise, it copies the waitlist link and opens Instagram. The form becomes live when `assets/config.js` receives the submitted endpoint from the intake flow. The Excel workbook includes a `WaitlistTable` table, validations, workflow flags and an operating dashboard. The Power Automate guide specifies three flows: **intake**, **scheduled invitations** and **mark joined**.
 
 ## Quick launch
 

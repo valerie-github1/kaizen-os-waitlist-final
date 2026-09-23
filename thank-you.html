@@ -7,7 +7,20 @@
   <link href="https://fonts.googleapis.com/css2?family=Agdasima:wght@400;700&family=Fira+Code:wght@400&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet"><link rel="stylesheet" href="assets/site.css">
 </head>
 <body class="thanks">
-  <main class="thanks-card"><div class="thanks-icon" aria-hidden="true">✓</div><p class="eyebrow">Kaizen OS · PhoennixAI</p><h1>You’re on the <em>list.</em></h1><p id="thanks-message">Thank you for your interest in Kaizen OS. We’ll contact you when an early-access invitation wave is ready.</p><a class="button-link" href="index.html">Back to Kaizen OS</a></main>
+  <main class="thanks-card">
+    <div class="thanks-icon" aria-hidden="true">✓</div><p class="eyebrow">Kaizen OS · PhoennixAI</p><h1>You’re on the <em>list.</em></h1><p id="thanks-message">Thank you for your interest in Kaizen OS. We’ll contact you when an early-access invitation wave is ready.</p>
+    <section class="share-panel" data-share-panel aria-labelledby="share-heading">
+      <p class="share-kicker">Invite your circle</p><h2 id="share-heading">Better with your <em>people.</em></h2><p>Share the waitlist with someone who is building more intentionally.</p>
+      <div class="share-actions">
+        <a class="share-button share-x" data-share-x href="#" target="_blank" rel="noopener noreferrer" aria-label="Share Kaizen OS on X"><span aria-hidden="true">𝕏</span><span>Twitter</span></a>
+        <button class="share-button share-instagram" data-share-instagram type="button" aria-label="Share Kaizen OS on Instagram"><span aria-hidden="true">◎</span><span>Instagram</span></button>
+        <a class="share-button share-linkedin" data-share-linkedin href="#" target="_blank" rel="noopener noreferrer" aria-label="Share Kaizen OS on LinkedIn"><span aria-hidden="true">in</span><span>LinkedIn</span></a>
+      </div>
+      <p class="share-feedback" data-share-feedback aria-live="polite"></p>
+    </section>
+    <a class="button-link" href="index.html">Back to Kaizen OS</a>
+  </main>
   <script>const name = new URLSearchParams(location.search).get('name'); if (name) document.getElementById('thanks-message').textContent = `Thanks, ${name}. We’ll contact you when an early-access invitation wave is ready.`;</script>
+  <script src="assets/share.js"></script>
 </body>
 </html>

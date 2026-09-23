@@ -3,12 +3,46 @@
   if (!form) return;
 
   const button = form.querySelector('button[type="submit"]');
+  const buttonText = button.querySelector('.button-text');
   const message = form.querySelector('[data-form-message]');
+  const emailInput = form.querySelector('#email');
+  const emailFeedback = form.querySelector('#email-feedback');
   const config = window.KAIZEN_WAITLIST_CONFIG || {};
 
   function showMessage(text, tone = '') {
     message.textContent = text;
     message.className = `form-message ${tone ? `is-${tone}` : ''}`;
+  }
+
+  function setLoading(isLoading) {
+    button.disabled = isLoading;
+    button.classList.toggle('is-loading', isLoading);
+    buttonText.textContent = isLoading ? 'Reserving your place…' : 'Request early access';
+  }
+
+  function validateEmail(forceMessage = false) {
+    const value = emailInput.value.trim();
+    const isValid = Boolean(value) && emailInput.validity.valid;
+    emailInput.classList.remove('is-valid', 'is-invalid');
+    emailInput.removeAttribute('aria-invalid');
+    emailFeedback.className = 'email-feedback';
+
+    if (!value && !forceMessage) {
+      emailFeedback.textContent = '';
+      return false;
+    }
+    if (isValid) {
+      emailInput.classList.add('is-valid');
+      emailFeedback.classList.add('is-valid');
+      emailFeedback.textContent = 'Email looks good.';
+      return true;
+    }
+
+    emailInput.classList.add('is-invalid');
+    emailInput.setAttribute('aria-invalid', 'true');
+    emailFeedback.classList.add('is-invalid');
+    emailFeedback.textContent = value ? 'Enter a valid email address.' : 'Email address is required.';
+    return false;
   }
 
   function redirectToThankYou(name) {
@@ -17,9 +51,16 @@
     window.location.assign(`thank-you.html${params.toString() ? `?${params}` : ''}`);
   }
 
+  emailInput.addEventListener('input', () => validateEmail(false));
+  emailInput.addEventListener('blur', () => validateEmail(true));
+
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
-    if (!form.reportValidity()) return;
+    const emailIsValid = validateEmail(true);
+    if (!emailIsValid || !form.reportValidity()) {
+      if (!emailIsValid) emailInput.focus();
+      return;
+    }
 
     const fields = Object.fromEntries(new FormData(form).entries());
     if (fields.website) return;
@@ -42,7 +83,8 @@
     }
 
     if (config.demoMode) {
-      redirectToThankYou(firstName);
+      setLoading(true);
+      window.setTimeout(() => redirectToThankYou(firstName), 260);
       return;
     }
 
@@ -51,8 +93,7 @@
       return;
     }
 
-    button.disabled = true;
-    button.textContent = 'Reserving your place…';
+    setLoading(true);
     showMessage('Submitting your request…');
 
     try {
@@ -67,8 +108,10 @@
       try { body = raw ? JSON.parse(raw) : {}; } catch { body = {}; }
 
       if (response.status === 409) {
+        setLoading(false);
+        button.disabled = true;
+        buttonText.textContent = 'You’re already registered';
         showMessage(body.message || 'That email address is already on the waitlist.', 'success');
-        button.textContent = 'You’re already registered';
         return;
       }
       if (!response.ok || body.ok === false) {
@@ -77,8 +120,7 @@
       redirectToThankYou(firstName);
     } catch (error) {
       showMessage(error instanceof Error ? error.message : 'We could not submit your request. Please try again.', 'error');
-      button.disabled = false;
-      button.textContent = 'Request early access';
+      setLoading(false);
     }
   });
 })();

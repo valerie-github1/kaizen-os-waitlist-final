@@ -1,0 +1,7 @@
+# Operating-system files
+.DS_Store
+Thumbs.db
+
+# Keep the Power Automate endpoint secret out of a public repository.
+# The committed assets/config.js is intentionally blank and safe to publish.
+assets/config.local.js

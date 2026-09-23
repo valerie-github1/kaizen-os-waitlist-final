@@ -35,7 +35,7 @@
             <div class="honeypot" aria-hidden="true"><label>Leave this field empty <input name="website" tabindex="-1" autocomplete="off"></label></div>
             <div class="field-grid">
               <div class="field"><label for="firstName">First name *</label><input id="firstName" name="firstName" type="text" autocomplete="given-name" placeholder="Your first name" required maxlength="80"></div>
-              <div class="field"><label for="email">Email address *</label><input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required maxlength="254"></div>
+              <div class="field"><label for="email">Email address *</label><input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required maxlength="254" aria-describedby="email-feedback"><small class="email-feedback" id="email-feedback" aria-live="polite"></small></div>
             </div>
             <div class="field-grid">
               <div class="field"><label for="company">Company or organisation</label><input id="company" name="company" type="text" autocomplete="organization" placeholder="Optional" maxlength="160"></div>
@@ -43,7 +43,7 @@
             </div>
             <label class="consent"><input id="termsAccepted" name="termsAccepted" type="checkbox" required><p>I agree to the <a href="terms.html">waitlist terms</a> and acknowledge the <a href="privacy.html">privacy notice</a>. *</p></label>
             <label class="consent"><input id="updatesOptIn" name="updatesOptIn" type="checkbox"><p>I would also like occasional product news from PhoennixAI. You can unsubscribe at any time.</p></label>
-            <button class="cta" type="submit">Request early access</button>
+            <button class="cta" type="submit"><span class="button-text">Request early access</span><span class="button-spinner" aria-hidden="true"></span></button>
             <p class="form-message" data-form-message aria-live="polite"></p>
           </form>
         </div>

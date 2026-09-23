@@ -1,32 +1,38 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useMemo, useState } from "react";
 import { Link, useLocation } from "wouter";
 
 const BRAND = "/manus-storage/PhoennixAI_16d880ee.jpg";
 const PRODUCT = "/manus-storage/kaizen-os-product-hero_f0c08774.png";
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export default function Home() {
   const [, setLocation] = useLocation();
   const [firstName, setFirstName] = useState("");
+  const [email, setEmail] = useState("");
+  const [emailTouched, setEmailTouched] = useState(false);
   const [terms, setTerms] = useState(false);
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const emailIsValid = useMemo(() => EMAIL_PATTERN.test(email.trim()), [email]);
+  const emailMessage = !email && !emailTouched ? "" : emailIsValid ? "Email looks good." : email ? "Enter a valid email address." : "Email address is required.";
 
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setEmailTouched(true);
+    if (!emailIsValid) { setError(""); return; }
     if (!terms) { setError("Please confirm that you agree to the waitlist terms before continuing."); return; }
-    setLocation(`/thank-you${firstName ? `?name=${encodeURIComponent(firstName)}` : ""}`);
+    setError(""); setIsLoading(true);
+    window.setTimeout(() => setLocation(`/thank-you${firstName ? `?name=${encodeURIComponent(firstName)}` : ""}`), 480);
   }
 
   return <>
     <a className="skip-link" href="#waitlist">Skip to the waitlist form</a>
     <div className="site-shell">
-      <header className="site-header">
-        <Link className="brand" href="/"><span className="brand-mark"><img src={BRAND} alt="PhoennixAI phoenix mark" /></span><span className="brand-type">PhoennixAI<small>Kaizen OS · Early access</small></span></Link>
-        <span className="launch-pill">Private invitation waves</span>
-      </header>
+      <header className="site-header"><Link className="brand" href="/"><span className="brand-mark"><img src={BRAND} alt="PhoennixAI phoenix mark" /></span><span className="brand-type">PhoennixAI<small>Kaizen OS · Early access</small></span></Link><span className="launch-pill">Private invitation waves</span></header>
       <main>
         <section className="hero" aria-labelledby="hero-title">
           <div className="hero-copy"><p className="eyebrow">A quieter way to move forward</p><h1 id="hero-title">Small gains.<br/><em>Compounded.</em></h1><p className="lede">Kaizen OS helps ambitious teams turn intentional habits into a durable operating rhythm. Join the early-access waitlist for a considered first look.</p><div className="signal-row"><span>Early access</span><span>Invitation waves</span><span>Built for focus</span></div>
-            <form className="waitlist-card" id="waitlist" onSubmit={submit}><p className="card-label">Request early access</p><div className="field-grid"><div className="field"><label htmlFor="firstName">First name *</label><input id="firstName" name="firstName" value={firstName} onChange={(event) => setFirstName(event.target.value)} autoComplete="given-name" placeholder="Your first name" required /></div><div className="field"><label htmlFor="email">Email address *</label><input id="email" type="email" autoComplete="email" placeholder="you@example.com" required /></div></div><div className="field-grid"><div className="field"><label htmlFor="company">Company or organisation</label><input id="company" autoComplete="organization" placeholder="Optional" /></div><div className="field"><label htmlFor="role">Role</label><input id="role" autoComplete="organization-title" placeholder="Optional" /></div></div><label className="consent"><input type="checkbox" checked={terms} onChange={(event) => { setTerms(event.target.checked); setError(""); }} /><p>I agree to the <Link href="/terms">waitlist terms</Link> and acknowledge the <Link href="/privacy">privacy notice</Link>. *</p></label><label className="consent"><input type="checkbox" /><p>I would also like occasional product news from PhoennixAI. You can unsubscribe at any time.</p></label><button className="cta" type="submit">Request early access</button><p className="form-message is-error" aria-live="polite">{error}</p></form>
+            <form className="waitlist-card" id="waitlist" onSubmit={submit} noValidate><p className="card-label">Request early access</p><div className="field-grid"><div className="field"><label htmlFor="firstName">First name *</label><input id="firstName" name="firstName" value={firstName} onChange={(event) => setFirstName(event.target.value)} autoComplete="given-name" placeholder="Your first name" required /></div><div className="field"><label htmlFor="email">Email address *</label><input id="email" name="email" type="email" value={email} onChange={(event) => setEmail(event.target.value)} onBlur={() => setEmailTouched(true)} className={emailTouched || email ? (emailIsValid ? "is-valid" : "is-invalid") : ""} aria-invalid={emailTouched && !emailIsValid} aria-describedby="email-feedback" autoComplete="email" placeholder="you@example.com" required /><small className={`email-feedback ${emailTouched || email ? (emailIsValid ? "is-valid" : "is-invalid") : ""}`} id="email-feedback" aria-live="polite">{emailMessage}</small></div></div><div className="field-grid"><div className="field"><label htmlFor="company">Company or organisation</label><input id="company" autoComplete="organization" placeholder="Optional" /></div><div className="field"><label htmlFor="role">Role</label><input id="role" autoComplete="organization-title" placeholder="Optional" /></div></div><label className="consent"><input type="checkbox" checked={terms} onChange={(event) => { setTerms(event.target.checked); setError(""); }} /><p>I agree to the <Link href="/terms">waitlist terms</Link> and acknowledge the <Link href="/privacy">privacy notice</Link>. *</p></label><label className="consent"><input type="checkbox" /><p>I would also like occasional product news from PhoennixAI. You can unsubscribe at any time.</p></label><button className={`cta ${isLoading ? "is-loading" : ""}`} type="submit" disabled={isLoading}><span className="button-text">{isLoading ? "Reserving your place…" : "Request early access"}</span><span className="button-spinner" aria-hidden="true" /></button><p className="form-message is-error" aria-live="polite">{error}</p></form>
           </div>
           <div className="product-stage"><figure className="product-frame"><img src={PRODUCT} alt="A laptop displaying the Kaizen OS workspace" /><figcaption className="product-caption">A first look at the Kaizen OS workspace</figcaption></figure></div>
         </section>
