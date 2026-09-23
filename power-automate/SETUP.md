@@ -31,6 +31,8 @@ The column names used below must match the workbook exactly, including spaces an
 | Confirmation sent, Invitation sent, Invitation date, Joined date | Automation state and operational timestamps. |
 | Source, Notes | Attribution and internal operator notes. |
 
+The enhanced workbook also includes a **Field map** worksheet. It is a read-only operator reference that maps each Excel column to its form or flow value. Keep the `Waitlist`, `Lists`, and `Field map` sheet names unchanged after uploading to Microsoft 365.
+
 ## 2. Build the intake flow
 
 Create an **Instant cloud flow** named `Kaizen OS — Waitlist intake` with the **When an HTTP request is received** trigger. Paste the contents of [`intake-request-schema.json`](intake-request-schema.json) into the trigger’s JSON schema field, then save once to generate the HTTP POST URL. Do not expose that URL publicly unless you have deliberately chosen the direct controlled-launch pattern.
@@ -154,6 +156,8 @@ Use the Dashboard worksheet each day to check total demand, pending confirmation
 3. Set the test row’s `Status` to `Invited`, run the invitation flow manually, and confirm the email arrives once and the row is stamped `Invitation sent = Yes` plus an invitation date.
 4. Call the joined flow from the Kaizen OS backend and confirm the row becomes `Joined` with a joined date.
 5. Remove the test row or mark it `Declined` after testing.
+
+The package includes [`workbook-lifecycle-test-result.md`](workbook-lifecycle-test-result.md), which validates the table schema and the intake → confirmation → invitation → joined field transitions on a disposable workbook copy. It is intentionally a local workbook test: the Outlook delivery and Excel Online connector steps must be verified in the target Microsoft 365 tenant using the procedure above.
 
 Keep the workbook closed in desktop Excel when flows run. Microsoft documents that writes can take up to 30 seconds to appear and that update/delete operations act on only the first row if the key is not unique; the flow therefore creates and uses a unique `Lead ID`. [1]
 
