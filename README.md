@@ -36,7 +36,7 @@ kaizen-os-waitlist-final/
 
 ## What is ready
 
-The website includes a responsive waitlist form, live email validation, submission loading feedback, an interactive three-panel product gallery, smooth navigation links to **Product** and **FAQ**, an accessible confirmation page, and social sharing actions. The form is wired for an Apps Script `/exec` endpoint through `assets/config.js`.
+The website includes a responsive waitlist form, live email validation, submission loading feedback, an interactive three-panel product gallery with click-to-enlarge lightbox views, smooth navigation links to **Product** and **FAQ**, an accessible confirmation page, and social sharing actions. The form is wired for an Apps Script `/exec` endpoint through `assets/config.js`.
 
 The Apps Script package provisions a `Waitlist` tab and a simple `Dashboard` in a Google Sheet. Each new lead receives a generated ID and timestamp; duplicate email addresses are not appended; consent and optional-marketing preference are preserved; and a confirmation email is sent when the owner account has sufficient mail quota. An optional owner notification can be configured using Script Properties.
 
