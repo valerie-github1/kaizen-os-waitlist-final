@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Join the Kaizen OS early-access waitlist by PhoennixAI.">
+  <meta name="theme-color" content="#0b1420">
+  <title>Kaizen OS · Early access · PhoennixAI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Agdasima:wght@400;700&family=Fira+Code:wght@400;500&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+  <a class="skip-link" href="#waitlist">Skip to the waitlist form</a>
+  <div class="site-shell">
+    <header class="site-header">
+      <a class="brand" href="index.html" aria-label="PhoennixAI — Kaizen OS waitlist home">
+        <span class="brand-mark"><img src="assets/PhoennixAI.jpg" alt="PhoennixAI phoenix mark"></span>
+        <span class="brand-type">PhoennixAI<small>Kaizen OS · Early access</small></span>
+      </a>
+      <span class="launch-pill">Private invitation waves</span>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="eyebrow">A quieter way to move forward</p>
+          <h1 id="hero-title">Small gains.<br><em>Compounded.</em></h1>
+          <p class="lede">Kaizen OS helps ambitious teams turn intentional habits into a durable operating rhythm. Join the early-access waitlist for a considered first look.</p>
+          <div class="signal-row" aria-label="Product highlights"><span>Early access</span><span>Invitation waves</span><span>Built for focus</span></div>
+
+          <form class="waitlist-card" data-waitlist-form novalidate id="waitlist">
+            <p class="card-label">Request early access</p>
+            <div class="honeypot" aria-hidden="true"><label>Leave this field empty <input name="website" tabindex="-1" autocomplete="off"></label></div>
+            <div class="field-grid">
+              <div class="field"><label for="firstName">First name *</label><input id="firstName" name="firstName" type="text" autocomplete="given-name" placeholder="Your first name" required maxlength="80"></div>
+              <div class="field"><label for="email">Email address *</label><input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required maxlength="254"></div>
+            </div>
+            <div class="field-grid">
+              <div class="field"><label for="company">Company or organisation</label><input id="company" name="company" type="text" autocomplete="organization" placeholder="Optional" maxlength="160"></div>
+              <div class="field"><label for="role">Role</label><input id="role" name="role" type="text" autocomplete="organization-title" placeholder="Optional" maxlength="120"></div>
+            </div>
+            <label class="consent"><input id="termsAccepted" name="termsAccepted" type="checkbox" required><p>I agree to the <a href="terms.html">waitlist terms</a> and acknowledge the <a href="privacy.html">privacy notice</a>. *</p></label>
+            <label class="consent"><input id="updatesOptIn" name="updatesOptIn" type="checkbox"><p>I would also like occasional product news from PhoennixAI. You can unsubscribe at any time.</p></label>
+            <button class="cta" type="submit">Request early access</button>
+            <p class="form-message" data-form-message aria-live="polite"></p>
+          </form>
+        </div>
+        <div class="product-stage" aria-label="Kaizen OS product preview">
+          <figure class="product-frame"><img src="assets/kaizen-os-product-hero.png" alt="A laptop displaying the Kaizen OS workspace"><figcaption class="product-caption">A first look at the Kaizen OS workspace</figcaption></figure>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="built-for-title">
+        <p class="eyebrow">What to expect</p>
+        <h2 class="section-title" id="built-for-title">Designed for <em>deliberate</em> progress.</h2>
+        <p class="section-intro">Early access is intentionally paced. Each invitation wave helps us learn with a smaller group before the next one opens.</p>
+        <div class="features">
+          <article class="feature"><span class="feature-number">01 / Focus</span><h3>Make the next step obvious.</h3><p>Bring the work that matters into a clear, calm system for making steady decisions.</p></article>
+          <article class="feature"><span class="feature-number">02 / Rhythm</span><h3>Build a practice that lasts.</h3><p>Use a repeatable operating rhythm rather than relying on another burst of motivation.</p></article>
+          <article class="feature"><span class="feature-number">03 / Signal</span><h3>See what is moving.</h3><p>Keep the progress, trade-offs and lessons visible enough to make the next improvement count.</p></article>
+        </div>
+      </section>
+
+      <section class="section promise" aria-labelledby="promise-title">
+        <aside class="promise-card"><strong id="promise-title">A respectful waitlist.</strong><p>We ask for only what we need to manage early access, and we separate optional product news from operational invitation messages.</p></aside>
+        <div class="faq">
+          <details><summary>What happens after I join?</summary><p>Your submission is recorded, and a confirmation email is sent. When a suitable early-access wave is ready, you may receive an invitation.</p></details>
+          <details><summary>Is joining a purchase or a guarantee?</summary><p>No. The waitlist records interest only. It does not create a paid subscription or guarantee access, timing or a particular feature set.</p></details>
+          <details><summary>How can I leave the waitlist?</summary><p>Use the contact details published on the production site to request removal. You can unsubscribe from optional product news through the email you receive.</p></details>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer"><span>© 2026 PhoennixAI · Kaizen OS</span><span class="footer-links"><a href="privacy.html">Privacy notice</a><a href="terms.html">Waitlist terms</a></span></footer>
+  </div>
+  <script src="assets/config.js"></script>
+  <script src="assets/waitlist.js"></script>
+</body>
+</html>
