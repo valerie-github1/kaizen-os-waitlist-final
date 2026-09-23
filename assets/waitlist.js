@@ -17,7 +17,7 @@
   function setLoading(isLoading) {
     button.disabled = isLoading;
     button.classList.toggle('is-loading', isLoading);
-    buttonText.textContent = isLoading ? 'Reserving your place…' : 'Request early access';
+    buttonText.textContent = isLoading ? 'Saving your interest…' : 'Register interest';
   }
 
   function validateEmail(forceMessage = false) {
@@ -66,15 +66,15 @@
     if (fields.website) return;
 
     const firstName = String(fields.firstName || '').trim();
-    const email = String(fields.email || '').trim().toLowerCase();
     const payload = {
       firstName,
-      email,
+      email: String(fields.email || '').trim().toLowerCase(),
       company: String(fields.company || '').trim(),
       role: String(fields.role || '').trim(),
       updatesOptIn: fields.updatesOptIn === 'on',
       termsAccepted: fields.termsAccepted === 'on',
-      source: 'Kaizen OS waitlist website'
+      source: 'Kaizen OS waitlist website',
+      website: String(fields.website || '').trim()
     };
 
     if (!payload.termsAccepted) {
@@ -89,37 +89,26 @@
     }
 
     if (!config.endpoint) {
-      showMessage('The waitlist is not connected yet. Add the Power Automate endpoint in assets/config.js before publishing.', 'error');
+      showMessage('The waitlist is not connected yet. Add the Google Apps Script /exec URL in assets/config.js before publishing.', 'error');
       return;
     }
 
     setLoading(true);
-    showMessage('Submitting your request…');
+    showMessage('Saving your interest…');
 
     try {
-      const response = await fetch(config.endpoint, {
+      // Apps Script web apps do not expose configurable CORS headers. no-cors
+      // dispatches this simple POST; the Sheet and email confirmation are the
+      // record of success after it is received by doPost(e).
+      await fetch(config.endpoint, {
         method: 'POST',
+        mode: 'no-cors',
         headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
         body: JSON.stringify(payload)
       });
-
-      const raw = await response.text();
-      let body = {};
-      try { body = raw ? JSON.parse(raw) : {}; } catch { body = {}; }
-
-      if (response.status === 409) {
-        setLoading(false);
-        button.disabled = true;
-        buttonText.textContent = 'You’re already registered';
-        showMessage(body.message || 'That email address is already on the waitlist.', 'success');
-        return;
-      }
-      if (!response.ok || body.ok === false) {
-        throw new Error(body.message || 'We could not save your request. Please try again.');
-      }
       redirectToThankYou(firstName);
     } catch (error) {
-      showMessage(error instanceof Error ? error.message : 'We could not submit your request. Please try again.', 'error');
+      showMessage('We could not send your request. Please check your connection and try again.', 'error');
       setLoading(false);
     }
   });

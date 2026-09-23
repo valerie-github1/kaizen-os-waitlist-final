@@ -1,6 +1,10 @@
-# Kaizen OS waitlist
+# Kaizen OS market-validation waitlist
 
-A GitHub-ready early-access waitlist for **PhoennixAI**. The package includes a branded responsive website, privacy and waitlist-term pages, an Excel Online control workbook, and a practical Power Automate implementation guide for confirmation, invitations and joined-status updates.
+A lightweight, GitHub-ready waitlist for **PhoennixAI**. It is designed to test demand for Kaizen OS before investing in a deeper product-access system: the public website collects interest, a Google Apps Script web app records leads in one Google Sheet, and the script can send a confirmation email.
+
+## Why this approach
+
+For a temporary market test, a full invitation workflow is unnecessary. This project now uses **Google Sheets + Google Apps Script** because it is easy to operate, cheap to run, and keeps the useful market signal in one simple spreadsheet. It records who is interested, when they joined, optional company/role context, and optional product-news consent. It does not promise access or build user accounts.
 
 ## Project structure
 
@@ -10,49 +14,54 @@ kaizen-os-waitlist-final/
 ├── privacy.html
 ├── terms.html
 ├── thank-you.html
-├── kaizen-os-waitlist-system.xlsx
+├── kaizen-os-waitlist-system.xlsx      ← retained reference workbook; not used by Apps Script
 ├── assets/
 │   ├── PhoennixAI.jpg
 │   ├── kaizen-os-product-hero.png
 │   ├── kaizen-focus-dashboard.png
 │   ├── kaizen-weekly-rhythm.png
 │   ├── kaizen-progress-signals.png
-│   ├── config.js
+│   ├── config.js                       ← paste the Apps Script /exec URL here
+│   ├── navigation.js                   ← smooth Product and FAQ navigation
 │   ├── gallery.js
 │   ├── share.js
 │   ├── site.css
 │   └── waitlist.js
-└── power-automate/
+└── apps-script/
+    ├── Code.gs                         ← Google Sheets collector + email confirmation
+    ├── appsscript.json
     ├── SETUP.md
-    ├── intake-request-schema.json
-    ├── joined-request-schema.json
-    ├── confirmation-email.html
-    ├── invitation-email.html
-    ├── test-intake-payload.json
-    └── workbook-lifecycle-test-result.md
+    └── test-payload.json
 ```
 
 ## What is ready
 
-The static website is complete and responsive, including keyboard focus states, terms acceptance, optional product-news consent, basic bot trapping, real-time email validation, submission loading feedback, an interactive three-panel product teaser gallery, and an accessible confirmation page. The FAQ now sends removal requests to the PhoennixAI agency website. The confirmation page provides X, LinkedIn and Instagram share actions. The Instagram action opens a native share sheet where available; otherwise, it copies the link and opens Instagram. The form becomes live when `assets/config.js` receives the submitted endpoint from the intake flow. The Excel workbook includes a 1,000-row `WaitlistTable`, controlled status/consent values, duplicate-email highlighting, a control dashboard, a Field map worksheet, and a verified local lifecycle test. The Power Automate guide specifies three flows: **intake**, **scheduled invitations** and **mark joined**.
+The website includes a responsive waitlist form, live email validation, submission loading feedback, an interactive three-panel product gallery, smooth navigation links to **Product** and **FAQ**, an accessible confirmation page, and social sharing actions. The form is wired for an Apps Script `/exec` endpoint through `assets/config.js`.
+
+The Apps Script package provisions a `Waitlist` tab and a simple `Dashboard` in a Google Sheet. Each new lead receives a generated ID and timestamp; duplicate email addresses are not appended; consent and optional-marketing preference are preserved; and a confirmation email is sent when the owner account has sufficient mail quota. An optional owner notification can be configured using Script Properties.
 
 ## Quick launch
 
-Upload the complete folder to a private GitHub repository. Follow [`power-automate/SETUP.md`](power-automate/SETUP.md) before changing `assets/config.js`. If publishing the site publicly, use the documented same-origin proxy pattern to keep the signed Power Automate URL out of browser source. Replace the privacy and terms placeholders with the final PhoennixAI legal entity and contact details, then obtain appropriate legal review before public launch.
+1. Create a blank Google Sheet in the Google account that will own the market-test data.
+2. Follow [`apps-script/SETUP.md`](apps-script/SETUP.md) to bind and deploy `Code.gs` as a web app.
+3. Paste the web app URL ending in `/exec` into `assets/config.js`.
+4. Publish the website and submit a non-production test email.
+5. Confirm that the Google Sheet receives exactly one lead and that the confirmation email arrives.
+
+> Treat the Apps Script `/exec` address as a **public form endpoint**, not a secret. Do not place passwords or keys in `assets/config.js`. The system includes client validation, a honeypot, duplicate-email protection, and a script lock, but is intentionally not an enterprise-grade anti-abuse system.
 
 ## Pre-publish checklist
 
-- Store the workbook in OneDrive for Business or SharePoint and restrict edit access.
-- Create and test the flows with a non-production email address. The included `workbook-lifecycle-test-result.md` verifies the local workbook field lifecycle; a live Excel Online/Outlook test still requires the Microsoft 365 tenant and saved flow URL.
-- Configure the form endpoint in `assets/config.js`.
-- Replace `{{INVITATION_URL}}` in the invitation email template.
-- Add the final PhoennixAI legal identity, address and privacy contact.
-- Confirm the legal basis, retention criteria and optional marketing process for the launch jurisdiction.
+- [ ] Deploy the Apps Script web app to run as its owner and configure public form access appropriately.
+- [ ] Add the `/exec` URL to `assets/config.js` with `demoMode: false`.
+- [ ] Add `OWNER_EMAIL` and `REPLY_TO` Script Properties if owner alerts and reply routing are wanted.
+- [ ] Test with a non-production email address, including a duplicate submission.
+- [ ] Confirm the Google account’s Apps Script mail quota is appropriate for expected traffic.
+- [ ] Add the final PhoennixAI legal entity, postal address, and privacy contact before a broad public campaign.
+- [ ] Review lead volume and profile in the Dashboard weekly; use that evidence to decide whether Kaizen OS merits the next investment phase.
 
-## Notes on Excel Online
+## Reference sources
 
-The Excel Online (Business) connector needs a workbook table for row operations, supports basic table filtering, and may delay committed write visibility. The automation uses a flow-generated unique `Lead ID` as the update key to avoid ambiguous updates. [1]
-
-## References
-
-[1]: https://learn.microsoft.com/en-us/connectors/excelonlinebusiness/ "Excel Online (Business) connector — Microsoft Learn"
+- [Apps Script web apps](https://developers.google.com/apps-script/guides/web)
+- [SpreadsheetApp](https://developers.google.com/apps-script/reference/spreadsheet/spreadsheet-app)
+- [MailApp](https://developers.google.com/apps-script/reference/mail/mail-app)

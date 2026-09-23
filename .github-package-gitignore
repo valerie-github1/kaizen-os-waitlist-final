@@ -2,6 +2,7 @@
 .DS_Store
 Thumbs.db
 
-# Keep the Power Automate endpoint secret out of a public repository.
-# The committed assets/config.js is intentionally blank and safe to publish.
+# The Apps Script endpoint is intentionally public, but keep optional local
+# deployment overrides and personal test notes out of the repository.
 assets/config.local.js
+apps-script/local.properties.json
