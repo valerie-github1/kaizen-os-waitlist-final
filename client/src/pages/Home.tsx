@@ -2,7 +2,7 @@ import { FormEvent, useMemo, useState } from "react";
 import { Link, useLocation } from "wouter";
 
 const BRAND = "/manus-storage/PhoennixAI_16d880ee.jpg";
-const PRODUCT = "/manus-storage/kaizen-os-product-hero_f0c08774.png";
+const PRODUCT = "/manus-storage/kaizen-os-product-hero_b221c57c.png";
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export default function Home() {
