@@ -25,20 +25,19 @@ The script also creates a compact **Dashboard** with total leads, seven-day lead
 
 ## Setup — about 10 minutes
 
-1. In Google Drive, create a blank Google Sheet named `Kaizen OS — Market waitlist`.
-2. Open it and select **Extensions → Apps Script**.
-3. Replace the default script with the complete content of [`Code.gs`](Code.gs). In **Project Settings**, enable the `appsscript.json` manifest file and replace its contents with [`appsscript.json`](appsscript.json).
-4. Click **Save**, select `setupWaitlistSheet` from the function list, and click **Run**. Approve Google’s permissions. This creates the `Waitlist` and `Dashboard` tabs and stores the bound sheet ID securely in Script Properties.
-5. Optional but recommended: in **Project Settings → Script properties**, add:
+1. Create a Google Sheet that will own the market-test data, then copy its ID from the URL.
+2. Create a **standalone** Apps Script project at [script.google.com](https://script.google.com), replace the default file with [`Code.gs`](Code.gs), and replace the Sheet ID in `SpreadsheetApp.openById(...)` with the copied ID. In **Project Settings**, enable the `appsscript.json` manifest file and replace its contents with [`appsscript.json`](appsscript.json).
+3. Click **Save**, select `setupWaitlistSheet` from the function list, and click **Run**. Approve Google’s permissions. This creates or validates the `Waitlist` and `Dashboard` tabs and stores the sheet ID in Script Properties.
+4. Optional but recommended: in **Project Settings → Script properties**, add:
 
    | Property | Value |
    | --- | --- |
    | `OWNER_EMAIL` | Address that should receive a brief alert for each new lead. |
    | `REPLY_TO` | Address to use when a recipient replies to the confirmation email. |
 
-6. Select **Deploy → New deployment → Web app**. Configure it to **execute as you**, and allow access for the audience required by the public form (typically **Anyone**). Deploy, approve any remaining permissions, and copy the URL ending in `/exec`.
-7. In this project, open `assets/config.js`, replace `endpoint: ""` with the `/exec` URL, and keep `demoMode: false`.
-8. Publish the website and submit a non-production email address. Confirm that one row appears in the `Waitlist` tab, that a confirmation email arrives, and that the dashboard updates.
+5. Select **Deploy → New deployment → Web app**. Configure it to **execute as you**, and allow access for the audience required by the public form (typically **Anyone**). Deploy, approve any remaining permissions, and copy the URL ending in `/exec`.
+6. In this project, open `assets/config.js`, replace the `endpoint` value with the `/exec` URL, and keep `demoMode: false`.
+7. Publish the website and submit a non-production email address. Confirm that one row appears in the `Waitlist` tab, that a confirmation email arrives, and that the dashboard updates.
 
 Apps Script web apps route browser POSTs to `doPost(e)`, and the script is configured to run as the deploying owner so it can access the Sheet and MailApp. [1]
 

@@ -43,8 +43,8 @@ The Apps Script package provisions a `Waitlist` tab and a simple `Dashboard` in 
 ## Quick launch
 
 1. Create a blank Google Sheet in the Google account that will own the market-test data.
-2. Follow [`apps-script/SETUP.md`](apps-script/SETUP.md) to bind and deploy `Code.gs` as a web app.
-3. Paste the web app URL ending in `/exec` into `assets/config.js`.
+2. Follow [`apps-script/SETUP.md`](apps-script/SETUP.md) to deploy `Code.gs` from a standalone Apps Script project as a web app.
+3. Confirm that `assets/config.js` contains the deployed web app URL ending in `/exec`.
 4. Publish the website and submit a non-production test email.
 5. Confirm that the Google Sheet receives exactly one lead and that the confirmation email arrives.
 

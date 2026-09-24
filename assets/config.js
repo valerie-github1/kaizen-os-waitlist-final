@@ -9,7 +9,7 @@
  * password, API key or any other secret in this file.
  */
 window.KAIZEN_WAITLIST_CONFIG = {
-  endpoint: "",
+  endpoint: "https://script.google.com/macros/s/AKfycbyI6mNnp22jK9LEPPeahMhnqL0l2WweWgxrqWMbvPlmg2Aq-M-SD931_HeL0tMXFdXc1w/exec",
   demoMode: false,
   transport: "apps-script"
 };
