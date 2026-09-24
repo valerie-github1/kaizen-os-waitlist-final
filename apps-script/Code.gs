@@ -53,7 +53,7 @@ function doPost(event) {
     const row = sheet.getLastRow();
     sheet.getRange(row, 2).setNumberFormat('yyyy-mm-dd hh:mm');
     sheet.getRange(row, 8).setNumberFormat('yyyy-mm-dd hh:mm');
-    const confirmationSent = sendConfirmation_(lead);
+    const confirmationSent = sendWelcomeEmail_(lead);
     if (confirmationSent) sheet.getRange(row, 11).setValue('Yes');
     SpreadsheetApp.flush();
 
@@ -109,12 +109,62 @@ function hasEmail_(sheet, email) {
     .some((row) => String(row[0]).trim().toLowerCase() === email);
 }
 
-function sendConfirmation_(lead) {
+function sendWelcomeEmail_(lead) {
   if (MailApp.getRemainingDailyQuota() < 1) return false;
-  const name = escapeHtml_(lead.firstName);
-  const html = `<div style="margin:0;padding:32px 16px;background:#f3f5f4;color:#1a2b34;font-family:Georgia,serif"><div style="max-width:600px;margin:auto;padding:34px;background:#fff;border:1px solid #d8dfdf;border-radius:12px"><p style="color:#567a89;font:600 11px monospace;letter-spacing:1.4px;text-transform:uppercase">Kaizen OS · PhoennixAI</p><h1>You’re on the early-access list.</h1><p>Thanks, ${name}. We’ve recorded your interest in Kaizen OS and will be in touch if an invitation wave is a good fit.</p><p>This is an interest list, not a purchase or guarantee of access.</p><p><a href="${SETTINGS.supportUrl}">Contact PhoennixAI</a></p></div></div>`;
-  MailApp.sendEmail(lead.email, 'You’re on the Kaizen OS early-access list', `Thanks, ${lead.firstName}. We’ve recorded your interest in Kaizen OS. Contact PhoennixAI: ${SETTINGS.supportUrl}`, { htmlBody: html, name: SETTINGS.senderName });
+  MailApp.sendEmail(
+    lead.email,
+    'Welcome to the Kaizen OS waitlist',
+    welcomeEmailText_(lead),
+    { htmlBody: welcomeEmailHtml_(lead), name: SETTINGS.senderName },
+  );
   return true;
+}
+
+function welcomeEmailText_(lead) {
+  const preference = lead.updatesOptIn
+    ? 'You also opted in to occasional Kaizen OS product news. You can unsubscribe from those optional updates at any time.'
+    : 'You have not opted in to product news. We will only email you about this waitlist and relevant early-access developments.';
+  return [
+    `Hello ${lead.firstName},`,
+    '',
+    'Welcome to the Kaizen OS waitlist. Your interest has been recorded.',
+    'Kaizen OS is currently a market-validation project. We are learning where a calmer operating system for focus, rhythm and progress signals can create the most value.',
+    'What happens next: as we review the signal from this early group, PhoennixAI may contact people whose context is a strong fit for a future early-access conversation.',
+    preference,
+    'Joining the waitlist is free. It is not a purchase and does not guarantee access, timing, or a particular feature set.',
+    `Questions or removal request: ${SETTINGS.supportUrl}`,
+    '',
+    '— Kaizen OS · PhoennixAI',
+  ].join('\n');
+}
+
+function welcomeEmailHtml_(lead) {
+  const name = escapeHtml_(lead.firstName);
+  const preference = lead.updatesOptIn
+    ? 'You also asked for occasional Kaizen OS product news. You can unsubscribe from those optional updates at any time.'
+    : 'You have not opted into product news. We will only contact you about this waitlist and relevant early-access developments.';
+  return `<div style="margin:0;padding:32px 16px;background:#edf1ef;color:#13202d;font-family:Georgia,'Times New Roman',serif">
+  <div style="max-width:600px;margin:0 auto;background:#ffffff;border:1px solid #d8dfdf;border-radius:16px;overflow:hidden">
+    <div style="padding:24px 34px;background:#0b1420;color:#ffffff">
+      <p style="margin:0;color:#c8cf71;font:600 11px/1.4 monospace;letter-spacing:1.5px;text-transform:uppercase">Kaizen OS · PhoennixAI</p>
+      <p style="margin:12px 0 0;font-size:14px;color:#cbd5da">A quieter way to move forward</p>
+    </div>
+    <div style="padding:34px">
+      <h1 style="margin:0 0 18px;font-size:32px;line-height:1.1;color:#13202d">Welcome to the waitlist.</h1>
+      <p style="margin:0 0 16px;font-size:17px;line-height:1.6">Hello ${name},</p>
+      <p style="margin:0 0 16px;font-size:17px;line-height:1.6">Thank you for adding your perspective. Your interest in <strong>Kaizen OS</strong> has been recorded.</p>
+      <p style="margin:0 0 22px;font-size:17px;line-height:1.6">Kaizen OS is a market-validation project exploring a calmer operating system for focus, rhythm, and meaningful progress signals.</p>
+      <div style="margin:0 0 22px;padding:20px 22px;background:#f4f6ed;border-left:4px solid #c8cf71;border-radius:4px">
+        <p style="margin:0 0 8px;color:#52656e;font:600 11px/1.4 monospace;letter-spacing:1.25px;text-transform:uppercase">What happens next</p>
+        <p style="margin:0;font-size:16px;line-height:1.55">As we learn from this early group, PhoennixAI may contact people whose context is a strong fit for a future early-access conversation.</p>
+      </div>
+      <p style="margin:0 0 22px;font-size:15px;line-height:1.6;color:#52656e">${preference}</p>
+      <p style="margin:0 0 24px;padding-top:18px;border-top:1px solid #e1e7e5;font-size:14px;line-height:1.6;color:#52656e">Joining the waitlist is free. It is not a purchase and does not guarantee access, timing, or a particular feature set.</p>
+      <a href="${SETTINGS.supportUrl}" style="display:inline-block;padding:12px 18px;background:#13202d;color:#ffffff;text-decoration:none;border-radius:999px;font:600 12px/1.2 Arial,sans-serif;letter-spacing:.3px">Visit PhoennixAI</a>
+    </div>
+    <div style="padding:18px 34px;background:#f6f8f7;color:#71808a;font-size:12px;line-height:1.5">Questions or a request to leave the waitlist? <a href="${SETTINGS.supportUrl}" style="color:#3f697b">Contact PhoennixAI</a>.</div>
+  </div>
+</div>`;
 }
 
 function initialiseWaitlist_(sheet) {
