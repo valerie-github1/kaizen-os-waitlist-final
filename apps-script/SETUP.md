@@ -2,7 +2,7 @@
 
 This is the deliberately lightweight replacement for the previous Microsoft flow. It is designed to answer one business question quickly: **is there enough qualified interest in Kaizen OS to justify deeper product investment?**
 
-The system has one public form, one Google Sheet, and one Google Apps Script web app. The web app stores a lead, rejects duplicate emails in the sheet, records consent, optionally sends a confirmation email, and can notify an owner address. It does **not** run invitation waves or attempt product-account provisioning; those are unnecessary for a short market test.
+The system has one public form, one Google Sheet, and one Google Apps Script web app. The complete `Code.gs` collector stores a lead, rejects duplicate emails in the sheet, records consent, optionally sends a confirmation email, and can notify an owner address. It does **not** run invitation waves or attempt product-account provisioning; those are unnecessary for a short market test.
 
 > The supplied `kaizen-os-waitlist-system.xlsx` is left untouched. This implementation creates a separate Google Sheet so the market-test data is uncomplicated and live in the same Google account that owns the script.
 
@@ -27,7 +27,7 @@ The script also creates a compact **Dashboard** with total leads, seven-day lead
 
 1. In Google Drive, create a blank Google Sheet named `Kaizen OS — Market waitlist`.
 2. Open it and select **Extensions → Apps Script**.
-3. Replace the default script with the content of [`Code.gs`](Code.gs). In **Project Settings**, enable the `appsscript.json` manifest file and replace its contents with [`appsscript.json`](appsscript.json).
+3. Replace the default script with the complete content of [`Code.gs`](Code.gs). In **Project Settings**, enable the `appsscript.json` manifest file and replace its contents with [`appsscript.json`](appsscript.json).
 4. Click **Save**, select `setupWaitlistSheet` from the function list, and click **Run**. Approve Google’s permissions. This creates the `Waitlist` and `Dashboard` tabs and stores the bound sheet ID securely in Script Properties.
 5. Optional but recommended: in **Project Settings → Script properties**, add:
 

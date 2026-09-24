@@ -24,7 +24,6 @@
     buttons.forEach((item) => {
       const isActive = item === button;
       item.classList.toggle('is-active', isActive);
-      item.setAttribute('aria-selected', String(isActive));
     });
     featureImage.src = button.dataset.image;
     featureImage.alt = button.dataset.alt;
@@ -34,8 +33,7 @@
     description.textContent = button.dataset.description;
   }
 
-  function openLightbox() {
-    const button = currentView();
+  function openLightbox(button = currentView()) {
     previouslyFocused = document.activeElement;
     lightboxImage.src = button.dataset.image;
     lightboxImage.alt = button.dataset.alt;
@@ -56,7 +54,10 @@
   }
 
   buttons.forEach((button) => {
-    button.addEventListener('click', () => applyView(button));
+    button.addEventListener('click', () => {
+      applyView(button);
+      openLightbox(button);
+    });
   });
 
   featureImageButton.addEventListener('click', openLightbox);

@@ -84,12 +84,16 @@ h1 em { font: 300 .56em/.9 var(--body); color: var(--olive); }
 .gallery-feature-copy > p { margin: 0; color: var(--muted); font-size: 1rem; }
 .gallery-note { display: inline-block; margin-top: 1.4rem; color: var(--olive); font: .58rem var(--mono); letter-spacing: .09em; text-transform: uppercase; }
 .gallery-rail { display: grid; grid-template-columns: repeat(3, 1fr); gap: .75rem; margin-top: .75rem; }
-.gallery-card { position: relative; min-width: 0; overflow: hidden; padding: 0; border: 1px solid var(--line); border-radius: 11px; color: var(--ink); background: rgba(255,255,255,.02); text-align: left; transition: border-color .16s var(--ease), transform .16s var(--ease), background .16s var(--ease); }
-.gallery-card:hover, .gallery-card.is-active { border-color: rgba(87,199,255,.64); background: rgba(87,199,255,.06); }
+.gallery-card { position: relative; min-width: 0; overflow: hidden; padding: 0; border: 1px solid var(--line); border-radius: 11px; color: var(--ink); background: rgba(255,255,255,.02); cursor: zoom-in; text-align: left; transform-origin: center; transition: border-color .2s var(--ease), transform .2s var(--ease), background .2s var(--ease), box-shadow .2s var(--ease); }
+.gallery-card:hover, .gallery-card:focus-visible, .gallery-card.is-active { border-color: rgba(87,199,255,.64); background: rgba(87,199,255,.06); }
+.gallery-card:hover, .gallery-card:focus-visible { transform: translateY(-4px) scale(1.025); box-shadow: 0 16px 30px rgba(0,0,0,.28); outline: none; }
 .gallery-card:active { transform: scale(.985); }
-.gallery-card img { display: block; width: 100%; aspect-ratio: 16 / 8.6; object-fit: cover; opacity: .62; transition: opacity .16s var(--ease), transform .24s var(--ease); }
-.gallery-card:hover img, .gallery-card.is-active img { opacity: .96; transform: scale(1.02); }
-.gallery-card span { display: flex; align-items: center; justify-content: space-between; gap: .5rem; padding: .68rem .78rem; }
+.gallery-card img { display: block; width: 100%; aspect-ratio: 16 / 8.6; object-fit: cover; opacity: .62; transition: opacity .2s var(--ease), transform .24s var(--ease), filter .2s var(--ease); }
+.gallery-card:hover img, .gallery-card:focus-visible img, .gallery-card.is-active img { opacity: 1; transform: scale(1.075); filter: brightness(1.08); }
+.gallery-card > span:not(.gallery-thumbnail-zoom) { display: flex; align-items: center; justify-content: space-between; gap: .5rem; padding: .68rem .78rem; }
+.gallery-thumbnail-zoom { position: absolute; z-index: 1; top: .65rem; right: .65rem; display: grid; place-items: center; width: 2.05rem; height: 2.05rem; border: 1px solid rgba(237,244,245,.3); border-radius: 50%; color: var(--ink); background: rgba(7,16,25,.8); opacity: 0; transform: translateY(5px) scale(.92); transition: opacity .18s var(--ease), transform .18s var(--ease), background .18s var(--ease); }
+.gallery-thumbnail-zoom svg { width: 1.05rem; height: 1.05rem; }
+.gallery-card:hover .gallery-thumbnail-zoom, .gallery-card:focus-visible .gallery-thumbnail-zoom { opacity: 1; transform: translateY(0) scale(1); background: rgba(87,199,255,.22); }
 .gallery-card strong { color: var(--cyan); font: .58rem var(--mono); letter-spacing: .1em; text-transform: uppercase; }
 .gallery-card small { color: var(--muted); font: .8rem var(--body); }
 
@@ -215,3 +219,6 @@ body.has-gallery-lightbox { overflow: hidden; }
 .gallery-lightbox-caption strong { color: var(--ink); font: 700 1.35rem/.9 var(--display); }
 @media (max-width: 560px) { .gallery-zoom-cue { opacity: 1; transform: none; } .gallery-lightbox { padding: .8rem; } .gallery-lightbox-panel { padding: .48rem; border-radius: 14px; } .gallery-lightbox-image { max-height: 68vh; } .gallery-lightbox-close { top: .78rem; right: .78rem; } .gallery-lightbox-caption { align-items: flex-start; flex-direction: column; gap: .32rem; padding: .65rem .25rem .08rem; } }
 @media (prefers-reduced-motion: reduce) { .gallery-lightbox, .gallery-lightbox-panel, .gallery-enlarge img, .gallery-zoom-cue { transition: none; } }
+
+@media (hover: none) { .gallery-thumbnail-zoom { opacity: 1; transform: none; background: rgba(7,16,25,.74); } }
+@media (prefers-reduced-motion: reduce) { .gallery-card, .gallery-card img, .gallery-thumbnail-zoom { transition: none; } }
