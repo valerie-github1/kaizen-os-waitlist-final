@@ -52,10 +52,10 @@ The Apps Script package provisions a `Waitlist` tab and a simple `Dashboard` in 
 
 ## Pre-publish checklist
 
-- [ ] Deploy the Apps Script web app to run as its owner and configure public form access appropriately.
-- [ ] Add the `/exec` URL to `assets/config.js` with `demoMode: false`.
+- [x] Deploy the Apps Script web app to run as its owner and configure public form access appropriately.
+- [x] Add the `/exec` URL to `assets/config.js` with `demoMode: false`.
 - [ ] Add `OWNER_EMAIL` and `REPLY_TO` Script Properties if owner alerts and reply routing are wanted.
-- [ ] Test with a non-production email address, including a duplicate submission.
+- [x] Test with a non-production email address, including a duplicate submission.
 - [ ] Confirm the Google account’s Apps Script mail quota is appropriate for expected traffic.
 - [ ] Add the final PhoennixAI legal entity, postal address, and privacy contact before a broad public campaign.
 - [ ] Review lead volume and profile in the Dashboard weekly; use that evidence to decide whether Kaizen OS merits the next investment phase.
