@@ -50,6 +50,18 @@ The Apps Script package provisions a `Waitlist` tab and a simple `Dashboard` in 
 
 > Treat the Apps Script `/exec` address as a **public form endpoint**, not a secret. Do not place passwords or keys in `assets/config.js`. The system includes client validation, a honeypot, duplicate-email protection, and a script lock, but is intentionally not an enterprise-grade anti-abuse system.
 
+## Deploy to Vercel (optional)
+
+**Yes — Vercel is compatible with this waitlist.** The repository includes `vercel.json`, which tells Vercel to treat the root-level HTML, CSS, JavaScript, and `assets/` files as the deployable static site rather than building the separate React preview workspace.
+
+1. In Vercel, select **Add New → Project**, then import `valerie-github1/kaizen-os-waitlist-final`.
+2. Keep the **Root Directory** as the repository root. The committed `vercel.json` selects the **Other** framework preset and serves the root directory; no build command is required.
+3. Leave environment variables empty. The public Apps Script `/exec` endpoint is already in `assets/config.js`; it is intentionally not a secret.
+4. Deploy. Future pushes to `main` will publish the production site, and Vercel can create preview deployments for pull requests.
+5. If you move to a custom domain, use the Vercel domain settings, then submit one real test lead to confirm the form and welcome email still work from that domain.
+
+GitHub Pages can remain online while you test Vercel. Both hosts use the same static front end and the same Google Apps Script collector, so only the hosting URL changes.
+
 ## Pre-publish checklist
 
 - [x] Deploy the Apps Script web app to run as its owner and configure public form access appropriately.
